@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/all.css" />
+    <link rel="stylesheet" href="./css/bootstrap.css" />
+  </head>
+
+  <body>
+    <div class="container m-5" id="app">
+      <div class="d-flex">
+        <!-- <label for="add-todo">在這裡新增</label> -->
+        <input
+          type="text"
+          id="add-todo"
+          v-model="newTodo"
+          @keydown.enter="add"
+          class="form-control"
+          placeholder="在這邊輸入你想做的事"
+        />
+        <button type="button" @click="add" class="btn ml-1 btn-outline-primary">
+          加入
+        </button>
+      </div>
+      <div class="card my-3">
+        <!-- 中間filter -->
+        <div class="filter d-flex justify-content-center">
+          <a
+            class="btn"
+            @click="filterBtn='all';filter"
+            :class="{active: filterBtn==='all'}"
+            >All</a
+          >
+          <a
+            class="btn"
+            @click="filterBtn='todo';filter"
+            :class="{active: filterBtn==='todo'}"
+          >
+            ToDo</a
+          >
+          <a
+            class="btn"
+            @click="filterBtn='complete';filter"
+            :class="{active: filterBtn==='complete'}"
+            >Completed</a
+          >
+        </div>
+        <!-- 下方呈現 -->
+        <div
+          class="card-body todo row"
+          v-for="(item, key) in filter"
+          :key="item.id"
+          :class=""
+        >
+          <input
+            type="checkbox"
+            v-model="item.done"
+            class="ml-3 mr-1 btn btn-outline-success my-auto"
+          />
+          <input
+            class="col-7 col-md-9 form-control mx-3"
+            type="text"
+            v-model="item.name"
+            :disabled="item.done"
+            @keydown.enter="edit()"
+          />
+          <!-- :value="`${key+1}.    ${item.name}`" -->
+
+          <button
+            type="button"
+            @click="removeData(item.name)"
+            class="col-2 col-md-1 ml-1 btn btn-outline-danger"
+          >
+            刪除
+          </button>
+        </div>
+        <footer class="ml-auto m-3 mr-4">
+          <span>目前有 {{getsum}} 筆待辦事件</span>
+          <button
+            type="button"
+            class="ml-3 btn btn-danger"
+            @click="removeAll()"
+          >
+            刪除全部
+          </button>
+        </footer>
+      </div>
+    </div>
+    <!-- script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.2/vue.global.js"></script>
+    <script
+      src="https://kit.fontawesome.com/f524eb7c1c.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
